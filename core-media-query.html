@@ -65,8 +65,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ready: function() {
         this._mqHandler = this.queryHandler.bind(this);
         this._mq = null;
+        window.addEventListener('orientationchange', this.orientationChangeHandler.bind(this));
+        //*for testing only*  window.addEventListener("resize", this.orientationChangeHandler.bind(this));
       },
-      queryChanged: function() {
+      queryChanged: function () {        
         if (this._mq) {
           this._mq.removeListener(this._mqHandler);
         }
@@ -78,9 +80,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this._mq.addListener(this._mqHandler);
         this.queryHandler(this._mq);
       },
-      queryHandler: function(mq) {
-        this.queryMatches = mq.matches;
-        this.asyncFire('core-media-change', mq);
+      orientationChangeHandler: function () {
+        // recreate event handler after orientation change to ensure that queryMatches is update after orientation change on iOS
+        if (!this._mq) return;
+        this.queryChanged();
+      },
+      queryHandler: function (mq) {
+        var newQueryMatches = mq.matches;
+        // fire event if query matches changed
+        if (newQueryMatches != this.queryMatches) {
+          this.queryMatches = newQueryMatches;
+          this.asyncFire('core-media-change', mq);
+        }
       }
     });
   </script>
