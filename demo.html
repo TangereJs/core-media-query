@@ -9,36 +9,58 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Polymer match media</title>
-  <script src="../platform/platform.js"></script>
-  <link rel="import" href="core-media-query.html" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>Polymer match media</title>
+    
+    <link rel="import" href="../polymer/polymer.html" />
+    <link rel="import" href="core-media-query.html" />
+    
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
 </head>
 <body>
-
-  <polymer-element name="match-example">
-    <template>
-      <core-media-query query="{{query}}" queryMatches="{{qMatches}}"></core-media-query>
-      My query of "{{query}}" {{qMatches ? "matches" : "doesn't match"}}
-    </template>
+    <dom-module id="match-example">
+        <template>
+            <core-media-query query="{{query}}" queryMatches="{{qMatches}}"></core-media-query>
+            My query of "<span>{{query}}</span>" <span>{{qMatchesMessage}}</span>
+        </template>
+    </dom-module>
     <script>
-      Polymer('match-example', {
-        query: 'min-width: 600px'
+      Polymer({
+        is: 'match-example',
+        properties:{
+            query: {
+                type: String,
+                value: 'min-width: 600px'
+            },
+            qMatches: {
+                type: Boolean,
+                value: false,
+                notify: true
+            },
+            qMatchesMessage: {
+                type: String,
+                value: function(){
+                    return this.qMatches ? "matches" : "doesn't match";
+                }
+            }
+        }
       });
     </script>
-  </polymer-element>
 
-  <match-example id="me"></match-example>
-  <pre id="output">
-  Log of 'mediachange' events on document, from polymer-match-media:
-  </pre>
+    <match-example id="me"></match-example>
+    
+    <pre id="output">
+        Log of 'mediachange' events on document, from polymer-match-media:
+    </pre>
 
-  <script>
-    var output = document.querySelector('#output');
-    // on-mediachange would give true or false as second param to the handler
-    document.addEventListener('core-media-change', function(e) {
-      output.textContent += '\nevent: ' + e.type + ' query: ' + e.detail.media + ' matches: ' + e.detail.matches;
-    });
-  </script>
+    <script>
+        var output = document.querySelector('#output');
+        // on-mediachange would give true or false as second param to the handler
+        document.addEventListener('query-matches-changed', function(e) {
+            output.textContent += '\nevent: ' + e.type + ' query: ' + e.detail.media + ' matches: ' + e.detail.matches;
+        });
+    </script>
 </body>
 </html>
