@@ -15,40 +15,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <title>Polymer match media</title>
     
     <link rel="import" href="../polymer/polymer.html" />
-    <link rel="import" href="core-media-query.html" />
+    <link rel="import" href="match-example.html" />
     
     <script src="../webcomponentsjs/webcomponents-lite.js"></script>
 </head>
 <body>
-    <dom-module id="match-example">
-        <template>
-            <core-media-query query="{{query}}" queryMatches="{{qMatches}}"></core-media-query>
-            My query of "<span>{{query}}</span>" <span>{{qMatchesMessage}}</span>
-        </template>
-    </dom-module>
-    <script>
-      Polymer({
-        is: 'match-example',
-        properties:{
-            query: {
-                type: String,
-                value: 'min-width: 600px'
-            },
-            qMatches: {
-                type: Boolean,
-                value: false,
-                notify: true
-            },
-            qMatchesMessage: {
-                type: String,
-                value: function(){
-                    return this.qMatches ? "matches" : "doesn't match";
-                }
-            }
-        }
-      });
-    </script>
-
     <match-example id="me"></match-example>
     
     <pre id="output">
