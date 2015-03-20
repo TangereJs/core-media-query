@@ -23,7 +23,6 @@ Example:
 <link rel="import" href="../polymer/polymer.html">
 
 <script>
-
   Polymer({
 
     is: 'core-media-query',
@@ -57,16 +56,16 @@ Example:
 
     },
 
-    ready: function() {
-        window.addEventListener('orientationchange', this.orientationChangeHandler.bind(this));
-        //*for testing only*  window.addEventListener("resize", this.orientationChangeHandler.bind(this));
+    ready: function () {
+      window.addEventListener('orientationchange', this.orientationChangeHandler.bind(this));
+      //*for testing only*  window.addEventListener("resize", this.orientationChangeHandler.bind(this));
     },
-      
-    created: function() {
+
+    created: function () {
       this._mqHandler = this.queryHandler.bind(this);
     },
 
-    queryChanged: function(query) {
+    queryChanged: function (query) {
       if (this._mq) {
         this._mq.removeListener(this._mqHandler);
       }
@@ -79,20 +78,13 @@ Example:
     },
 
     orientationChangeHandler: function () {
-        // recreate event handler after orientation change to ensure that queryMatches is update after orientation change on iOS
-        if (!this._mq) return;
-        this.queryChanged();
+      // recreate event handler after orientation change to ensure that queryMatches is update after orientation change on iOS
+      if (!this._mq) return;
+      this.queryChanged();
     },
-    
-    queryHandler: function (mq) {
-        var newQueryMatches = mq.matches;
-        // fire event if query matches changed
-        if (newQueryMatches != this.queryMatches) {
-            this.queryMatches = newQueryMatches;
-            this.fire('query-matches-changed', mq);
-            //this.asyncFire('core-media-change', mq);
-        }
-    }
-});
 
+    queryHandler: function (mq) {
+      this._setQueryMatches(mq.matches); // fires event when value changes
+    }
+  });
 </script>
