@@ -2,6 +2,6 @@
   "name": "core-media-query",
   "private": true,
   "dependencies": {
-    "polymer": "Polymer/polymer#master"
+    "tangere": "TangereJs/tangere#master"
   }
 }
